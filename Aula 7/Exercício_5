@@ -1,0 +1,44 @@
+# ========================================
+# EXERCÍCIO 5: Previsão de demanda de energia
+# ========================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+print("\n" + "=" * 50)
+print("EXERCÍCIO 5 - Previsão de Demanda de Energia")
+print("=" * 50)
+
+# Dados de treinamento
+consumo = np.array([50, 140, 30, 75, 123]).reshape(-1, 1)  # consumo em KW
+demanda = np.array([100, 200, 80, 100, 160])               # demanda em KW
+
+# Criar e treinar o modelo
+modelo_energia = LinearRegression()
+modelo_energia.fit(consumo, demanda)
+
+# Fazer previsões para novos consumos
+consumos_teste = np.array([60, 90, 110, 150]).reshape(-1, 1)
+demandas_previstas = modelo_energia.predict(consumos_teste)
+
+# Exibir os resultados
+print("\nPrevisões de demanda:")
+for i in range(len(consumos_teste)):
+    print(f"Consumo: {consumos_teste[i][0]} KW - Demanda prevista: {demandas_previstas[i]:.2f} KW")
+
+# Coeficientes do modelo
+print(f"\nCoeficiente angular (B1): {modelo_energia.coef_[0]:.4f}")
+print(f"Intercepto (B0): {modelo_energia.intercept_:.2f} KW")
+
+# Plotar o gráfico
+plt.figure(figsize=(10, 6))
+plt.scatter(consumo, demanda, color='orange', s=100, label='Dados de Treinamento')
+plt.plot(consumos_teste, demandas_previstas, color='red', marker='o', label='Previsões')
+plt.xlabel('Consumo (KW)')
+plt.ylabel('Demanda (KW)')
+plt.title('Previsão de Demanda de Energia com Base no Consumo')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()

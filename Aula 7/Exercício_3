@@ -1,0 +1,44 @@
+# ========================================
+# EXERCÍCIO 3: Previsão de valor de imóvel
+# ========================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+print("=" * 50)
+print("EXERCÍCIO 3 - Previsão de Valor de Imóvel")
+print("=" * 50)
+
+# Dados de treinamento
+area = np.array([50, 100, 120, 300]).reshape(-1, 1)  # área em m²
+valor = np.array([180000, 300000, 375000, 600000])   # valor em reais
+
+# Criar e treinar o modelo
+modelo_imovel = LinearRegression()
+modelo_imovel.fit(area, valor)
+
+# Fazer previsões para novas áreas
+areas_teste = np.array([80, 150, 200, 250]).reshape(-1, 1)
+valores_previstos = modelo_imovel.predict(areas_teste)
+
+# Exibir os resultados
+print("\nPrevisões de valores:")
+for i in range(len(areas_teste)):
+    print(f"Área: {areas_teste[i][0]} m² - Valor previsto: R$ {valores_previstos[i]:,.2f}")
+
+# Coeficientes do modelo
+print(f"\nCoeficiente angular (B1): R$ {modelo_imovel.coef_[0]:,.2f} por m²")
+print(f"Intercepto (B0): R$ {modelo_imovel.intercept_:,.2f}")
+
+# Plotar o gráfico
+plt.figure(figsize=(10, 6))
+plt.scatter(area, valor, color='blue', s=100, label='Dados de Treinamento')
+plt.plot(areas_teste, valores_previstos, color='red', marker='o', label='Previsões')
+plt.xlabel('Área (m²)')
+plt.ylabel('Valor (R$)')
+plt.title('Previsão de Valor de Imóvel com Base na Área')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
